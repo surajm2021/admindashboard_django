@@ -1,0 +1,22 @@
+{% extends 'admin/base.html' %}
+{% block branding %}
+<head>
+    <style>
+        body{
+            color:red;
+            background-color:lightblue;
+        }
+        .test{
+            color: #2f5687;
+        }
+    </style>
+</head>
+<h1 class="test">Test suraj</h1>
+{% endblock %}
+    {% block messages %}
+        {% if messages %}
+        <ul class="messagelist">{% for message in messages %}
+          <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message|capfirst }}<script>alert('{{ message|capfirst }}')</script></li>
+        {% endfor %}</ul>
+        {% endif %}
+    {% endblock %}

@@ -1,0 +1,88 @@
+<!doctype html>
+{% load auth_extras %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Dashboard</title>
+     	<style type="text/css">
+ 		@media screen and (max-width: 800px){
+ 		.footer{
+ 			display: none;
+ 		}
+
+/* Set a style for all buttons */
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+ 	</style>
+</head>
+<body>
+<br>
+<h3 align="center"><u>All User List</u></h3><br>
+<div>
+<table border="2px;" style="width:1500px" class="table table-hover">
+  <tr align="center">
+  	<thead>
+    <th>Uid</th>
+  	<th>Username</th>
+  	<th>Email</th>
+  	<th>Last Login Date</th>
+  	<th>Date Of Joined</th>
+    <th>Staff member</th>
+    <th>is verify</th>
+
+    </thead>
+  </tr>
+    <form method='POST'>
+     {% csrf_token %}
+{% for member in allusers %}
+  <tr  align="center">
+{{member.username.label}}
+    <td>{{member.id}}</td>
+  	<td onclick="document.getElementById('id01').style.display='block'">{{member.username}}</td>
+      <input type="hidden" name="member_id" value="{{member.id}}">
+<!--      <button onclick="document.getElementById('id01').style.display='block'" value="{{member.id}}">{{member.username}}</button>-->
+  	<td>{{member.email}}</td>
+    <td>{{member.last_login.date}}</td>
+  	<td>{{member.date_joined.date}}</td>
+  	<td>
+        {% if member.is_staff %}
+        <input type="checkbox" name="current_staff" value="{{member.id}}" checked><br>
+        <input type="hidden" name="all_staff" value="{{member.id}}"><br>
+    {% else %}
+        <input type="checkbox" name="make_staff" value="{{member.id}}"><br>
+  	{% endif %}
+  	</td>
+  	<td>
+  	{% if member.is_active %}
+        <input type="checkbox" name="current_active" value="{{member.id}}" checked><br>
+        <input type="hidden" name="all_active" value="{{member.id}}"><br>
+    {% else %}
+        <input type="checkbox" name="make_active" value="{{member.id}}"><br>
+  	{% endif %}
+  	</td>
+
+
+  </tr>
+
+{% endfor %}
+            <button type="submit" name="btnform2">Save Changes</button>
+    </form>
+</table>
+</div>
+</body>
+</html>
